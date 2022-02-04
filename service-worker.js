@@ -1,4 +1,4 @@
-const cacheName = 'app-v-1';
+const cacheName = 'app-v-3';
 
 const assetUrls = [
   '/index.html',
@@ -17,7 +17,11 @@ self.addEventListener('activate', async (event) => {
   console.log('[SW]: activate');
 
   const cacheNames = await caches.keys();
-  await Promise.all();
+  await Promise.all(
+    cacheNames
+      .filter(name=>name!==cacheName)
+      .map(name=>caches.delete(name))
+  );
 });
 
 self.addEventListener('fetch', event => {
